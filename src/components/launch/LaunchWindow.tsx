@@ -173,12 +173,14 @@ function LaunchWindowContent() {
 				return;
 			}
 
-			window.electronAPI?.hudOverlaySetInteractiveBounds?.({
-				left: window.screenX + Math.min(...rects.map((rect) => rect.left)),
-				top: window.screenY + Math.min(...rects.map((rect) => rect.top)),
-				right: window.screenX + Math.max(...rects.map((rect) => rect.right)),
-				bottom: window.screenY + Math.max(...rects.map((rect) => rect.bottom)),
-			});
+			window.electronAPI?.hudOverlaySetInteractiveBounds?.(
+				rects.map((rect) => ({
+					left: window.screenX + rect.left,
+					top: window.screenY + rect.top,
+					right: window.screenX + rect.right,
+					bottom: window.screenY + rect.bottom,
+				})),
+			);
 		};
 
 		reportInteractiveBounds();

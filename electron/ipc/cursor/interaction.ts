@@ -198,12 +198,14 @@ export function recordCursorMouseDown(button: 1 | 2 | 3) {
 	const hud = getHudOverlayWindow();
 	if (hud?.isVisible() && !hud.isMinimized() && hudBounds) {
 		const cursor = getScreen().getCursorScreenPoint();
-		if (
-			cursor.x >= hudBounds.left &&
-			cursor.x <= hudBounds.right &&
-			cursor.y >= hudBounds.top &&
-			cursor.y <= hudBounds.bottom
-		) {
+		const isInsideHudInteractiveElement = hudBounds.some(
+			(bounds) =>
+				cursor.x >= bounds.left &&
+				cursor.x <= bounds.right &&
+				cursor.y >= bounds.top &&
+				cursor.y <= bounds.bottom,
+		);
+		if (isInsideHudInteractiveElement) {
 			return;
 		}
 	}

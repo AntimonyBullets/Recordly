@@ -43,12 +43,12 @@ let hudOverlayMouseReassertTimer: NodeJS.Timeout | null = null;
 let hudOverlayRecordingActive = false;
 let hudCaptureStarting = false;
 let hudOverlayWebcamPreviewVisible = false;
-let hudOverlayInteractiveBounds: {
+let hudOverlayInteractiveBounds: Array<{
 	left: number;
 	top: number;
 	right: number;
 	bottom: number;
-} | null = null;
+}> | null = null;
 let countdownWindow: BrowserWindow | null = null;
 let capturePickerWindows: BrowserWindow[] = [];
 let areaRecordingBorderWindow: BrowserWindow | null = null;
@@ -479,15 +479,18 @@ ipcMain.on(
 	(
 		_event,
 		bounds:
-			| { left: number; top: number; right: number; bottom: number }
+			| Array<{ left: number; top: number; right: number; bottom: number }>
 			| null
 			| undefined,
 	) => {
 		if (
 			!bounds ||
-			![bounds.left, bounds.top, bounds.right, bounds.bottom].every(Number.isFinite) ||
-			bounds.right < bounds.left ||
-			bounds.bottom < bounds.top
+			bounds.some(
+				(rect) =>
+					![rect.left, rect.top, rect.right, rect.bottom].every(Number.isFinite) ||
+					rect.right < rect.left ||
+					rect.bottom < rect.top,
+			)
 		) {
 			hudOverlayInteractiveBounds = null;
 			return;

@@ -228,7 +228,7 @@ interface Window {
 		hudOverlayRendererReady: () => void;
 		hudOverlaySetWebcamPreviewVisible: (visible: boolean) => void;
 		hudOverlaySetInteractiveBounds: (
-			bounds: { left: number; top: number; right: number; bottom: number } | null,
+			bounds: Array<{ left: number; top: number; right: number; bottom: number }> | null,
 		) => void;
 		getHudOverlayCaptureProtection: () => Promise<{ success: boolean; enabled: boolean }>;
 		getHudOverlayMousePassthroughSupported: () => Promise<{
